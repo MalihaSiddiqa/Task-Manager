@@ -14,11 +14,14 @@ import "./Style.css";
 function App() {
   const [filter,setFilter]=useState("All");
   const [darkMode, setDarkMode] = useState(false);
-  const [tasks,setTasks]=useState([]);
+  const [tasks,setTasks]=useState(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks ? JSON.parse(savedTasks):[];
+  });
 
   useEffect(()=>{
     localStorage.setItem("tasks",JSON.stringify(tasks));
-  });
+  },[tasks]);
    const addTask=(task)=>{
     setTasks([...tasks, task]) 
    }
