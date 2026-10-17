@@ -8,7 +8,7 @@ const [priority,setPriority]=useState("Medium")
 const handlesubmit= (e)=>{
     e.preventDefault();
     if (!task.trim())return;
-    addTask ({ text:task, priority, completed: false });
+    addTask ({id:Date.now(), text:task, priority, completed: false });
     setTask("");
     setPriority("Medium");
 

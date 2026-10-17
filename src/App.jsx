@@ -25,25 +25,31 @@ function App() {
    const addTask=(task)=>{
     setTasks([...tasks, task]) 
    }
-   const updateTask=(updatedTask,index)=>{
-    const newTask=[...tasks];
-    newTask[index]=updatedTask;
-    setTasks(newTask);
+   const updateTask=(updatedTask)=>{
+    setTasks(tasks.map((task)=>(task.id === updatedTask.id ? updatedTask : task)));
    }
-   const deleteTask=(index)=>{
-     setTasks(tasks.filter((_, i)=> i !=index))
+   const deleteTask=(id)=>{
+     setTasks(tasks.filter((task)=>task.id !== id));
    }
    const clearTasks=()=>{
     setTasks([]);
    }
    const [searchQuery, setSearchQuery]=useState("");
+   const priorityOrder={
+    High : 1,
+    Medium: 2,
+    Low : 3,
+   }
    const filteredTasks=tasks.filter(task =>{
     const matchesSearch = task.text.toLowerCase().includes(searchQuery.toLowerCase())
     let matchesFilter = true;
     if (filter === "Active") matchesFilter= !task.completed;
     if (filter==="Completed")matchesFilter=task.completed;
     return matchesSearch && matchesFilter;
-  });
+  })
+  .sort((a,b)=>{
+    return (priorityOrder[a.priority]|| 4) - (priorityOrder[b.priority] || 4);
+    })
    const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     window.location.reload();
