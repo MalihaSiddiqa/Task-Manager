@@ -51,40 +51,16 @@ function App() {
   return(
     <Router>
     <div className="App">
-      <div className={`App ${darkMode ? "dark" : ""}`}></div>
-      <nav>
-
-        <div className="navbar">
-      <h1 className="title">
-        Task manager
-      </h1>
-      <button 
-            onClick={() => setDarkMode(!darkMode)} 
-            className="theme-toggle-btn"
-          >
-            {darkMode ? "☀️ Light" : "🌙 Dark"}
-          </button>
-          </div>
-
-          
-      <input type="text" placeholder="Search tasks..."
-      value={searchQuery}
-      onChange={(e)=> setSearchQuery(e.target.value)} className="search"></input>
-
-      <select  className="header-filter-select" value={filter} onChange={(e) => setFilter(e.target.value)}>
-      <option value="All">Filter: All</option>
-      <option value="Active">Filter: Active</option>
-      <option value="Completed">Filter: Completed</option>
-    </select>
-      </nav>
-
       <Routes>
         <Route path="/" element ={<Navigate to ="/dashboard" replace/>}/>
        <Route path="/login" element ={<Login/>}/>
       <Route
       path="/dashboard" element={
         <ProtectedRoute>
-      <Header tasks={tasks}></Header>
+      <Header tasks={tasks} darkMode={darkMode} 
+      setDarkMode={setDarkMode} searchQuery={searchQuery} 
+      setSearchQuery={setSearchQuery} filter={filter} 
+      setFilter={setFilter}></Header>
       <TaskForm addTask={addTask}/>
       <TaskList tasks={filteredTasks} 
      updateTask={updateTask} 
@@ -98,7 +74,7 @@ function App() {
         }}>Clear All Tasks</button> )}
         </ProtectedRoute>
       }/>
-      <Route parh="*" element={<Navigate to="/dashboard" replace/>}/>
+      <Route path="*" element={<Navigate to="/dashboard" replace/>}/>
       </Routes>
        {localStorage.getItem("isLoggedIn") === "true" && (
               <button onClick={handleLogout} className="logout-btn"> Logout</button>
