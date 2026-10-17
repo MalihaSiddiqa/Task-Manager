@@ -66,19 +66,18 @@ function App() {
      updateTask={updateTask} 
      deleteTask={deleteTask}/>
       <ProgressTracker tasks={tasks} />
-
         {tasks.length>0 && (<button className="clear-btn"
         onClick={()=>{
           clearTasks();
         localStorage.removeItem("tasks");
         }}>Clear All Tasks</button> )}
+        {localStorage.getItem("isLoggedIn") === "true" && (
+          <button onClick={handleLogout} className="logout-btn"> Logout</button>
+        )}
         </ProtectedRoute>
       }/>
       <Route path="*" element={<Navigate to="/dashboard" replace/>}/>
       </Routes>
-       {localStorage.getItem("isLoggedIn") === "true" && (
-              <button onClick={handleLogout} className="logout-btn"> Logout</button>
-            )}
     </div>
     </Router>
       )
